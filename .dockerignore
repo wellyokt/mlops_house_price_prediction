@@ -1,14 +1,11 @@
-# Ignore the 'assignment_mlops' directory
-assignment_mlops/
+# Ignore the directory
+venv/
 
 # Ignore Python cache files
 __pycache__
 *.pyc
 *.pyo
 
-# Ignore virtual environment directories
-.venv/
-env/
 
 # Ignore logs
 *.log

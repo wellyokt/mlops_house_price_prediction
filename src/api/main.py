@@ -71,7 +71,7 @@ def get_latest_model_path() -> tuple[str, ModelInfo]:
     # Try to load model by run ID
     try:
         # Load directly from run ID and model name
-        model_path = f"runs:/{run_id}/gradient_boosting"
+        model_path = f"runs:/{run_id}/xgboost"
         logger.info(f"Trying to load model from: {model_path}")
         model = mlflow.pyfunc.load_model(model_path)
         logger.info(f"Successfully loaded model from: {model_path}")
@@ -87,20 +87,26 @@ def get_latest_model_path() -> tuple[str, ModelInfo]:
             logger.error(f"Error loading from alternative path: {str(e2)}")
             # Try local filesystem path
             try:
-                local_path = os.path.join("mlruns", experiment.experiment_id, 
-                                        run_id, "artifacts/model")
+                print(experiment)
+                model_name = ['xgboost','decision_tree','random_forest']
+                for i in model_name:
+                    try:
+                        local_path = os.path.join("mlruns", experiment.experiment_id, 
+                                            run_id, f"artifacts\{i}\model.pkl")
+                    except:
+                        continue
                 logger.info(f"Trying local filesystem path: {local_path}")
                 if not os.path.exists(local_path):
                     raise ValueError(f"Local path does not exist: {local_path}")
                 model = mlflow.pyfunc.load_model(local_path)
                 model_path = local_path
+                # model_path =model_path.replace("\","/")
+                print(model_path)
+
                 logger.info(f"Successfully loaded model from local path")
-            except Exception as e3:
+            except Exception as e:
                 logger.error(f"Error loading from local path: {str(e3)}")
-                raise ValueError(f"Could not load model from any path. Errors:\n"
-                               f"Primary: {str(e)}\n"
-                               f"Alternative: {str(e2)}\n"
-                               f"Local: {str(e3)}")
+
     
     # Create model info
     metrics = ModelMetrics(
@@ -125,15 +131,15 @@ async def startup_event():
         mlflow.set_tracking_uri('sqlite:///mlflow.db')
         
         # Find and load best model
-        # model_path, model_info = get_latest_model_path()
-        # logger.info(f"Loading model from path: {model_path}")
-        # model = mlflow.pyfunc.load_model(model_path)
-
-        # Load the model using the correct method
-
-        model_path  =r"mlruns/1/32a49ce7a4174c87b637115323754eb6/artifacts/xgboost/model.pkl"
-        with open(model_path, 'rb') as f:
-            model = pickle.load(f)
+        try:
+            model_path, model_info = get_latest_model_path()
+            logger.info(f"Loading model from path: {model_path}")
+            model = mlflow.pyfunc.load_model(model_path)
+        except:
+            # Load the model using the correct method
+            model_path  =r"mlruns/1/3e4ec8218a5d49789df685a694ae1d09/artifacts/xgboost/model.pkl"
+            with open(model_path, 'rb') as f:
+                model = pickle.load(f)
         
         # Initialize and load preprocessor
         preprocessor = DataProcessor()
