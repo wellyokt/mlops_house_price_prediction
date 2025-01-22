@@ -121,6 +121,20 @@ http://localhost:8000/docs
 - `GET /health`: Health check endpoint
 - `GET /model-info`: Get current model information
 
+
+## Docker 
+```Bash
+docker pull python:3.10-slim
+```
+
+```Bash
+docker build -t mlops -f Dockerfile .
+```
+```Bash
+docker run mlops
+```
+
+
 ## Model Training
 
 The pipeline trains three types of models:

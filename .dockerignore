@@ -1,0 +1,31 @@
+# Ignore the 'assignment_mlops' directory
+assignment_mlops/
+
+# Ignore Python cache files
+__pycache__
+*.pyc
+*.pyo
+
+# Ignore virtual environment directories
+.venv/
+env/
+
+# Ignore logs
+*.log
+
+# Ignore temporary files
+*.tmp
+*.swp
+
+# Ignore Git files and directories
+.git/
+.gitignore
+
+# Ignore Docker-related files
+.dockerignore
+Dockerfile
+
+# Ignore IDE and editor files
+.vscode/
+.idea/
+*.sublime-workspace

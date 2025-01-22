@@ -30,19 +30,6 @@ class DataProcessor:
         """Create preprocessing directory if it doesn't exist"""
         Path(self.preprocessing_path).mkdir(parents=True, exist_ok=True)
     
-    def handle_outliers(self,  numeric_cols: list,df=pd.DataFrame) ->pd.DataFrame:
-        """Handle outliers by capping values using IQR"""
-        for col in numeric_cols:
-            Q1 = df[col].quantile(0.25)
-            Q3 = df[col].quantile(0.75)
-            IQR = Q3 - Q1
-            high_limit = Q3 + 1.5 * IQR
-            low_limit = Q1 - 1.5 * IQR
-
-            # Cap the outliers to the high and low limits
-            df[col] = np.where(df[col] > high_limit, high_limit, df[col])
-            df[col] = np.where(df[col] < low_limit, low_limit, df[col])
-        return df
     
     def handle_missing_values(self, df: pd.DataFrame) -> pd.DataFrame:
         """Handle missing values by filling them"""
@@ -88,7 +75,6 @@ class DataProcessor:
             numerical_cols =  X.select_dtypes(include=['int64','float64']).columns.to_list()
             categorical_cols = X.select_dtypes(include=['object']).columns
 
-            X = self.handle_outliers( numerical_cols, X)
             X = self.handle_missing_values(X)
 
             numerical_cols =  X.select_dtypes(include=['int64','float64']).columns.to_list()
