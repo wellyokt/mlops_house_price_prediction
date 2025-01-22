@@ -20,7 +20,7 @@ class HouseSaleRequest(BaseModel):
     Id: int = Field(..., description="Unique identifier for the house")
     MSSubClass: int = Field(..., description="The building class")
     MSZoning: str = Field(..., description="The general zoning classification")
-    LotFrontage: Optional[float] = Field(None, description="Linear feet of street connected to property")
+    LotFrontage: float = Field(..., description="Linear feet of street connected to property")
     LotArea: int = Field(..., description="Lot size in square feet")
     Street: str = Field(..., description="Type of road access")
     LotShape: str = Field(..., description="General shape of property")
@@ -41,22 +41,23 @@ class HouseSaleRequest(BaseModel):
     RoofMatl: str = Field(..., description="Roof material")
     Exterior1st: str = Field(..., description="Exterior covering on house")
     Exterior2nd: str = Field(..., description="Exterior covering on house (if more than one material)")
+    MasVnrArea :float = Field(...,description="Masonry veneer area in square feet")
     ExterQual: str = Field(..., description="Exterior material quality")
     ExterCond: str = Field(..., description="Present condition of the material on the exterior")
     Foundation: str = Field(..., description="Type of foundation")
-    BsmtQual: Optional[str] = Field(None, description="Height of the basement")
-    BsmtCond: Optional[str] = Field(None, description="General condition of the basement")
-    BsmtExposure: Optional[str] = Field(None, description="Walkout or garden level basement walls")
-    BsmtFinType1: Optional[str] = Field(None, description="Quality of basement finished area")
+    BsmtQual: str= Field(..., description="Height of the basement")
+    BsmtCond: str = Field(..., description="General condition of the basement")
+    BsmtExposure: str = Field(..., description="Walkout or garden level basement walls")
+    BsmtFinType1: str = Field(..., description="Quality of basement finished area")
     BsmtFinSF1: int = Field(..., description="Type 1 finished square feet")
-    BsmtFinType2: Optional[str] = Field(None, description="Quality of second finished area (if present)")
+    BsmtFinType2: str = Field(..., description="Quality of second finished area (if present)")
     BsmtFinSF2: int = Field(..., description="Type 2 finished square feet")
     BsmtUnfSF: int = Field(..., description="Unfinished square feet of basement area")
     TotalBsmtSF: int = Field(..., description="Total square feet of basement area")
     Heating: str = Field(..., description="Type of heating")
     HeatingQC: str = Field(..., description="Heating quality and condition")
     CentralAir: str = Field(..., description="Central air conditioning")
-    Electrical: Optional[str] = Field(None, description="Electrical system")
+    Electrical: str= Field(..., description="Electrical system")
     onestFlrSF: int = Field(..., description="First Floor square feet")
     twondFlrSF: int = Field(..., description="Second floor square feet")
     LowQualFinSF: int = Field(..., description="Low quality finished square feet (all floors)")
@@ -71,13 +72,13 @@ class HouseSaleRequest(BaseModel):
     TotRmsAbvGrd: int = Field(..., description="Total rooms above grade (does not include bathrooms)")
     Functional: str = Field(..., description="Home functionality rating")
     Fireplaces: int = Field(..., description="Number of fireplaces")
-    GarageType: Optional[str] = Field(None, description="Garage location")
-    GarageYrBlt: Optional[float] = Field(None, description="Year garage was built")
-    GarageFinish: Optional[str] = Field(None, description="Interior finish of the garage")
+    GarageType: str= Field(..., description="Garage location")
+    GarageYrBlt: float = Field(..., description="Year garage was built")
+    GarageFinish: str= Field(..., description="Interior finish of the garage")
     GarageCars: int = Field(..., description="Size of garage in car capacity")
     GarageArea: int = Field(..., description="Size of garage in square feet")
-    GarageQual: Optional[str] = Field(None, description="Garage quality")
-    GarageCond: Optional[str] = Field(None, description="Garage condition")
+    GarageQual: str = Field(..., description="Garage quality")
+    GarageCond: str = Field(..., description="Garage condition")
     PavedDrive: str = Field(..., description="Paved driveway")
     WoodDeckSF: int = Field(..., description="Wood deck area in square feet")
     OpenPorchSF: int = Field(..., description="Open porch area in square feet")
@@ -89,87 +90,86 @@ class HouseSaleRequest(BaseModel):
     MoSold: int = Field(..., description="Month Sold")
     YrSold: int = Field(..., description="Year Sold")
     SaleType: str = Field(..., description="Type of sale")
-    MasVnrArea :float = Field(...,description="Masonry veneer area in square feet")
     SaleCondition: str = Field(..., description="Condition of sale")
 
     class Config:
         schema_extra = {
             "example": {
-                "Id": 1,
-                "MSSubClass": 60,
-                "MSZoning": "RL",
-                "LotFrontage": 80.0,
-                "LotArea": 9600,
-                "Street": "Pave",
-                "LotShape": "Reg",
-                "LandContour": "Lvl",
-                "Utilities": "AllPub",
-                "LotConfig": "Inside",
-                "LandSlope": "Gtl",
-                "Neighborhood": "CollgCr",
-                "Condition1": "Norm",
-                "Condition2": "Norm",
-                "BldgType": "1Fam",
-                "HouseStyle": "2Story",
-                "OverallQual": 7,
-                "OverallCond": 5,
-                "YearBuilt": 2000,
-                "YearRemodAdd": 2005,
-                "RoofStyle": "Gable",
-                "RoofMatl": "CompShg",
-                "Exterior1st": "VinylSd",
-                "Exterior2nd": "VinylSd",
-                "ExterQual": "Gd",
-                "ExterCond": "TA",
-                "Foundation": "PConc",
-                "BsmtQual": "Gd",
-                "BsmtCond": "TA",
-                "BsmtExposure": "No",
-                "BsmtFinType1": "GLQ",
-                "BsmtFinSF1": 800,
-                "BsmtFinType2": "Unf",
-                "BsmtFinSF2": 0,
-                "BsmtUnfSF": 500,
-                "TotalBsmtSF": 1300,
-                "Heating": "GasA",
-                "HeatingQC": "Ex",
-                "CentralAir": "Y",
-                "Electrical": "SBrkr",
-                "onestFlrSF": 1000,
-                "twondFlrSF": 800,
-                "LowQualFinSF": 0,
-                "GrLivArea": 1800,
-                "BsmtFullBath": 1,
-                "BsmtHalfBath": 1,
-                "FullBath": 2,
-                "HalfBath": 1,
-                "BedroomAbvGr": 3,
-                "KitchenAbvGr": 1,
-                "KitchenQual": "Gd",
-                "TotRmsAbvGrd": 8,
-                "Functional": "Typ",
-                "Fireplaces": 1,
-                "GarageType": "Attchd",
-                "GarageYrBlt": 2000,
-                "GarageFinish": "RFn",
-                "GarageCars": 2,
-                "GarageArea": 400,
-                "GarageQual": "TA",
-                "GarageCond": "TA",
-                "PavedDrive": "Y",
-                "WoodDeckSF": 200,
-                "OpenPorchSF": 100,
-                "EnclosedPorch": 0,
-                "threeSsnPorch": 0,
-                "ScreenPorch": 0,
-                "PoolArea": 0,
-                "MiscVal": 0,
-                "MoSold": 6,
-                "YrSold": 2021,
-                "SaleType": "WD",
-                "MasVnrArea":190.0,
-                "SaleCondition": "Normal"
-            }
+        "Id": 1,
+        "MSSubClass": 60,
+        "MSZoning": "RL",
+        "LotFrontage": 65.0,
+        "LotArea": 8450,
+        "Street": "Pave",
+        "LotShape": "Reg",
+        "LandContour": "Lvl",
+        "Utilities": "AllPub",
+        "LotConfig": "Inside",
+        "LandSlope": "Gtl",
+        "Neighborhood": "CollgCr",
+        "Condition1": "Norm",
+        "Condition2": "Norm",
+        "BldgType": "1Fam",
+        "HouseStyle": "2Story",
+        "OverallQual": 7,
+        "OverallCond": 5,
+        "YearBuilt": 2003,
+        "YearRemodAdd": 2003,
+        "RoofStyle": "Gable",
+        "RoofMatl": "CompShg",
+        "Exterior1st": "VinylSd",
+        "Exterior2nd": "VinylSd",
+        "MasVnrArea":190.0,
+        "ExterQual": "Gd",
+        "ExterCond": "TA",
+        "Foundation": "PConc",
+        "BsmtQual": "Gd",
+        "BsmtCond": "TA",
+        "BsmtExposure": "No",
+        "BsmtFinType1": "GLQ",
+        "BsmtFinSF1": 706,
+        "BsmtFinType2": "Unf",
+        "BsmtFinSF2": 0,
+        "BsmtUnfSF": 150,
+        "TotalBsmtSF": 856,
+        "Heating": "GasA",
+        "HeatingQC": "Ex",
+        "CentralAir": "Y",
+        "Electrical": "SBrkr",
+        "onestFlrSF": 856,
+        "twondFlrSF": 854,
+        "LowQualFinSF": 0,
+        "GrLivArea": 1710,
+        "BsmtFullBath": 1,
+        "BsmtHalfBath": 0,
+        "FullBath": 2,
+        "HalfBath": 1,
+        "BedroomAbvGr": 3,
+        "KitchenAbvGr": 1,
+        "KitchenQual": "Gd",
+        "TotRmsAbvGrd": 8,
+        "Functional": "Typ",
+        "Fireplaces": 0,
+        "GarageType": "Attchd",
+        "GarageYrBlt": 2003.0,
+        "GarageFinish": "RFn",
+        "GarageCars": 2,
+        "GarageArea": 548,
+        "GarageQual": "TA",
+        "GarageCond": "TA",
+        "PavedDrive": "Y",
+        "WoodDeckSF": 0,
+        "OpenPorchSF": 61,
+        "EnclosedPorch": 0,
+        "threeSsnPorch": 0,
+        "ScreenPorch": 0,
+        "PoolArea": 0,
+        "MiscVal": 0,
+        "MoSold": 2,
+        "YrSold": 2008,
+        "SaleType": "WD",
+        "SaleCondition": "Normal"
+        }
         }
 
 
@@ -177,5 +177,5 @@ class HouseSaleRequest(BaseModel):
 
 class HousePredictionResponse(BaseModel):
     """House Price prediction response schema"""
-    Id: str = Field(..., description="Id")
+    Id: int = Field(..., description="Id")
     SalePrice : int = Field(...,description ='Sale Price Prediction')

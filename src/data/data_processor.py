@@ -131,7 +131,7 @@ class DataProcessor:
             logger.info("Starting transform process")
             
             print('==============')
-            print(self.encoders)
+            print(self.scaler.feature_names_in_)
             # Create a copy to avoid modifying original data
             X = df.copy()
             
@@ -139,7 +139,13 @@ class DataProcessor:
             if 'Id' in X.columns:
                 X = X.drop('Id', axis=1)
                         
-            numerical_cols =  X.select_dtypes(include=['int64','float64']).columns
+            numerical_cols =  ['MSSubClass', 'LotFrontage', 'LotArea', 'OverallQual', 'OverallCond',
+                            'YearBuilt', 'YearRemodAdd', 'MasVnrArea', 'BsmtFinSF1', 'BsmtFinSF2',
+                            'BsmtUnfSF', 'TotalBsmtSF', 'onestFlrSF', 'twondFlrSF', 'LowQualFinSF',
+                            'GrLivArea', 'BsmtFullBath', 'BsmtHalfBath', 'FullBath', 'HalfBath',
+                            'BedroomAbvGr', 'KitchenAbvGr', 'TotRmsAbvGrd', 'Fireplaces', 'GarageYrBlt',
+                            'GarageCars', 'GarageArea', 'WoodDeckSF', 'OpenPorchSF', 'EnclosedPorch',
+                            'threeSsnPorch', 'ScreenPorch', 'PoolArea', 'MiscVal', 'MoSold', 'YrSold']
 
             # Transform categorical columns
             for col, encoder in self.encoders.items():
@@ -147,6 +153,8 @@ class DataProcessor:
             
             # Transform numerical columns
             X[numerical_cols] = self.scaler.transform(X[numerical_cols])
+            # X[selfscaler.feature_names_in] = self.scaler.transform(X[scaler.feature_names_in])
+
             
             logger.info("Transform completed successfully")
             return X

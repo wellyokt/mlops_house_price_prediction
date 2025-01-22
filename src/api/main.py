@@ -186,7 +186,7 @@ async def predict(request: HouseSaleRequest):
         
         response = HousePredictionResponse(
             Id=request.Id,
-            housepriceprediction=prediction
+            SalePrice=int(prediction[0])
         )
         
         logger.info(f"Prediction completed for customer: {request.Id}")
@@ -202,5 +202,5 @@ async def health_check():
     return {
         "status": "healthy",
         "timestamp": datetime.now().isoformat(),
-        "model_info": model_info
+        "model_info": ModelInfo
     }
